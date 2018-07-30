@@ -10,7 +10,8 @@ sequenceDiagram
     participant bm as Beetmover Workers
     participant bw as Balrog Workers
     participant bouncew as Bouncer Workers
-    participant shipitw as Shipit Worker
+    participant shipitw as Shipit Workers
+    participant as as Addon Workers
     participant s3 as S3
     participant Balrog
     participant Bouncer
@@ -48,8 +49,8 @@ sequenceDiagram
     ss -->> tc: Signed L10N Packages
     deactivate sw
     deactivate ss
-    tc ->> rw: Sign and Push Langpacks
-    rw ->> AMO: Sign and Push Langpacks
+    tc ->> as: Sign and Push Langpacks
+    as ->> AMO: Sign and Push Langpacks
     tc ->>+ rw: Make Partner Repacks
     rw -->>- tc: Partner Repacks
     tc ->> sw: Sign Partner Internals 
