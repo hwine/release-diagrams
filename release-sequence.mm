@@ -2,6 +2,7 @@ sequenceDiagram
     participant RelEng as Release Engineer
     participant QE as QA Engineer
     participant RelMan as Release Manager
+    participant bm81 as buildbot-master81
     participant Ship It
     participant hg as hg.mozilla.org
     participant tc as Taskcluster
@@ -145,3 +146,30 @@ sequenceDiagram
     rw -->>- tc: Update Verify Configs
     tc ->> rw: Verify Updates
     Note right of tc: End Promote Phase
+    RelMan ->> RelEng: Push Release to CDNs
+    RelEng ->> bm81: Create Decision Task
+    bm81 ->> tc: Create Decision Task
+    tc ->> tc: Create Push Graph
+    Note right of tc: Start Push Phase
+    tc ->> bm: Copy Bits to Releases Dir
+    bm ->> S3: Copy Bits to Releases Dir
+    tc ->> QE: Notify that pushed builds are ready for testing
+    tc ->> rw: Verify Bouncer & Balrog Entries
+    Note right of tc: End Push Phase
+    RelMan ->> RelEng: Publish Release
+    RelEng ->> bm81: Create Decision Task
+    bm81 ->> tc: Create Decision Task
+    tc ->> tc: Create Ship Graph
+    Note right of tc: Start Ship Phase
+    tc ->> bw: Schedule Ship in Balrog
+    bw ->> Balrog: Schedule Ship in Balrog
+    tc ->> bouncew: Update Bouncer Alias'
+    bouncew ->> Bouncer: Update Bouncer Alias'
+    tc ->> shipitw: Mark as Shipped
+    shipitw ->> Ship It: Mark as Shipped
+    tc ->> RelMan: Notify that updates are awaiting Signoff in Balrog
+    RelEng ->> Balrog: Sign off on updates
+    RelMan ->> Balrog: Sign off on updates
+    tc ->> rw: Bump in-tree version
+    rw ->> hg: Bump in-tree version
+    Note right of tc: End Ship Phase
