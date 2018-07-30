@@ -1,0 +1,62 @@
+digraph "Release Infrastructure" {
+    rankdir="LR"
+    splines="polyline"
+    newrank=true
+    concentrate=true
+
+    tc [label="Taskcluster"]
+    hg [label="hg.mozilla.org"]
+    shipit [label="Ship It"]
+    fs [label="Funsize"]
+    gh [label="Github"]
+    subgraph cluster_puppet {
+        label = "Puppet Managed"
+        bw [label="Build Workers"]
+        bms [label="Beetmover Scriptworkers"]
+        bouncesw [label="Bouncer Scriptworkers"]
+        bs [label="Balrog Scriptworkers"]
+        sw [label="Signing Scriptworkers"]
+        ss [label="Signing Servers"]
+        as [label="Addon Scriptworkers"]
+        l10n [label="L10n Bumper"]
+        rr [label="Release Runner"]
+        pas [label="Pushapk Scriptworkers"]
+        pss [label="Pushsnap Scriptworkers"]
+        sis [label="Ship It Scriptworkers"]
+        ts [label="Tree Scriptworkers"]
+        md [label="Merge Day Instance"]
+        pm [label="Puppet Masters"]
+    }
+    AMO
+    Balrog
+    Bouncer
+    S3
+
+
+    "gh" -> "pm"
+
+    "hg" -> "tc"
+    "rr" -> "tc"
+
+    "tc" -> "bw"
+    "tc" -> "fs"
+    "tc" -> "sw"
+    "tc" -> "as"
+    "tc" -> "bs"
+    "tc" -> "bms"
+    "tc" -> "bouncesw"
+    "tc" -> "pas"
+    "tc" -> "pss"
+    "tc" -> "sis"
+    "tc" -> "ts"
+
+    "bouncesw" -> "Bouncer"
+    "bs" -> "Balrog"
+    "as" -> "AMO"
+    "sis" -> "shipit"
+    "md" -> "hg"
+    "l10n" -> "hg"
+    "sw" -> "ss"
+    "shipit" -> "rr"
+    "bms" -> "S3"
+}
