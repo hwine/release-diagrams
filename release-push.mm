@@ -5,8 +5,7 @@ sequenceDiagram
     participant bm81 as buildbot-master81
     participant tc as Taskcluster
     participant bm as Beetmover Workers
-    participant Balrog
-    participant Bouncer
+    participant S3
 
     RelMan ->> RelEng: Push Release to CDNs
     RelEng ->> bm81: Create Decision Task
