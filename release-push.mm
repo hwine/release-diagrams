@@ -1,17 +1,19 @@
 sequenceDiagram
-    participant RelEng as Release Engineer
-    participant QE as QA Engineer
     participant RelMan as Release Manager
-    participant bm81 as buildbot-master81
+    participant Ship It
     participant tc as Taskcluster
+    participant rw as Release Workers
     participant bm as Beetmover Workers
     participant S3
+    participant Bouncer
+    participant Balrog
 
-    RelMan ->> RelEng: Push Release to CDNs
-    RelEng ->> bm81: Create Decision Task
-    bm81 ->> tc: Create Decision Task
+    RelMan ->> Ship It: Push Release to CDNs
+    Ship It ->> tc: Create Decision Task
     tc ->> tc: Create Push Graph
     tc ->> bm: Copy Bits to Releases Dir
     bm ->> S3: Copy Bits to Releases Dir
-    tc ->> QE: Notify that pushed builds are ready for testing
-    tc ->> rw: Verify Bouncer & Balrog Entries
+    tc ->> rw: Verify Bouncer Entries
+    rw ->> Bouncer: Verify Bouncer Entries
+    tc ->> rw: Verify Balrog Entries
+    rw ->> Balrog: Verify Balrog Entries
