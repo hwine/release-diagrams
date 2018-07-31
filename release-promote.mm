@@ -1,10 +1,8 @@
 sequenceDiagram
-    participant QE as QA Engineer
     participant RelMan as Release Manager
     participant Ship It
     participant tc as Taskcluster
     participant rw as Release Workers
-    participant fs as Funsize
     participant sw as Signing Workers
     participant ss as Signing Servers
     participant bm as Beetmover Workers
@@ -69,8 +67,8 @@ sequenceDiagram
     ss -->> tc: Signed Partner Packages
     deactivate sw
     deactivate ss
-    tc ->>+ fs: Make Partial Updates
-    fs -->>- tc: Partial Updates
+    tc ->>+ rw: Make Partial Updates
+    rw -->>- tc: Partial Updates
     tc ->> sw: Sign Partial Updates
     activate sw
     sw ->> ss: Sign Partial Updates
@@ -103,7 +101,6 @@ sequenceDiagram
     activate Bouncer
     deactivate bouncew
     deactivate Bouncer
-    tc ->> QE: Notify that builds are ready for testing
     tc ->> bw: Submit to Balrog
     activate bw
     bw ->> Balrog: Submit to Balrog
