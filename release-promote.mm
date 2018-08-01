@@ -54,8 +54,13 @@ sequenceDiagram
     deactivate sw
     deactivate ss
     tc ->> as: Sign and Push Langpacks
+    activate as
     Note over tc,as: release-sign-and-push-langpacks
     as ->> AMO: Sign and Push Langpacks
+    activate AMO
+    AMO -->> tc: Signed Langpacks
+    deactivate AMO
+    deactivate as
     tc ->>+ rw: Make Partner Repacks
     Note over tc,rw: release-partner-repack
     rw -->>- tc: Partner Repacks
