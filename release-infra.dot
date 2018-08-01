@@ -59,4 +59,5 @@ digraph "Release Infrastructure" {
     "ts" -> "hg"
     "pas" -> "gp"
     "pss" -> "snap"
+    "shipit" -> "tc"
 }
