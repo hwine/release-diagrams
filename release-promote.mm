@@ -24,6 +24,7 @@ sequenceDiagram
     Note over tc,rw: release-source
     Note over tc,rw: nightly-l10n
     Note over tc,rw: repackage-l10n
+    Note over tc,rw: release-snap-repackage
     Note over tc,rw: release-partner-repack
     Note over tc,rw: release-partner-repack-repackage
     Note over tc,rw: partials
@@ -51,7 +52,9 @@ sequenceDiagram
     deactivate AMO
     deactivate as
     tc ->> bm: Copy Bits to Candidates Dir
-    Note over tc,bm: beetmover, beetmover-l10n, beetmover-repackage, beetmover-source, release-generate-checksums-beetmover
+    Note over tc,bm: beetmover, beetmover-checksums, beetmover-l10n, beetmover-repackage, beetmover-source, release-beetmover-signed-langpacks
+    Note over tc,bm: release-beetmover-source-checksums, release-eme-free-repack-beetmover, release-eme-free-repack-beetmover-checksums
+    Note over tc,bm: release-generate-checksums-beetmover, release-partner-repack-beetmover
     activate bm
     bm ->> s3: Copy Bits to Candidates Dir
     activate s3
